@@ -1,0 +1,40 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<div class="container wrapper">
+    <div class="span-18">
+        <h2>${info.title}</h2>
+    </div>
+    <div class="span-6 last">
+
+    </div>
+    <div class="span-18" id="tabscol">
+        <div class="tab-menu">
+            <ul>
+                <li class="active"><a href="/" id="current">About</a></li>
+                <li><a href="/post">New Post</a></li>
+                <li><a href="/posts">List of Posts</a></li>
+                <li><a href="/comments">Comments</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="span-6 last">
+        <div id="logincol">
+            #{if user}                
+                <a id="sign-in-btn" class="app-btn rpxnow" href="@{Admin.logout()}">
+                    Sign Out
+                </a>
+            #{/if}
+            #{else}
+                <a id="sign-in-btn" class="app-btn rpxnow" href="@{Admin.login()}">
+                    Sign In
+                </a>
+            #{/else}
+        </div>
+    </div>
+    <div class="span-18">
+        <div id="maincol">
+
+        </div>
+    </div>
+</div>
