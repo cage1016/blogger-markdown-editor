@@ -9,10 +9,11 @@ GET     /post                                   Admin.post
 GET     /posts                                  Admin.posts
 GET     /drafts                                 Admin.drafts
 GET     /settings                               Admin.settings
-GET     /edit                                   Admin.edit
+GET     /edit/{published}/{tzShift}             Admin.edit
 
 POST    /publish                                Admin.publish
 POST    /saveDraft                              Admin.saveDraft
+POST    /update                                 Admin.update
 
 # Home page
 GET     /                                       Application.index

@@ -138,7 +138,7 @@ public class Admin extends Controller {
             } catch (AuthenticationException ae) {
                 session.remove("auth-token");
                 authenticate("/post", new processAction() {
-                     public void doAction() {                      
+                     public void doAction() {
                      }
                 });
             } catch (ServiceException se) {
@@ -156,7 +156,7 @@ public class Admin extends Controller {
 
     public static void posts() {        
         authenticate("posts", new processAction() {
-             public void doAction() {                                                
+             public void doAction() {
                 try {                    
                     URL feedUrl = new URL(defaultUrl);
                     Feed posts = googleService.getFeed(feedUrl, Feed.class);
@@ -195,11 +195,82 @@ public class Admin extends Controller {
         });
     }
 
-     public static void edit() {
+     public static void edit(final long published, final int tzShift) {
         authenticate("edit", new processAction() {
              public void doAction() {
+                try {
+                    long start = published - 1;
+                    long end = published + 1;
+                    DateTime startTime = new DateTime(start, tzShift);
+                    DateTime endTime = new DateTime(end, tzShift);                    
+                    URL feedUrl = new URL(defaultUrl);
+                    Query query = new Query(feedUrl);
+                    query.setPublishedMin(startTime);
+                    query.setPublishedMax(endTime);
+                    Feed resultFeed = googleService.query(query, Feed.class);
+                    Entry entry = resultFeed.getEntries().get(0);
+
+                    renderArgs.put("title", entry.getTitle().getPlainText());
+                    renderArgs.put("entry", entry.getTextContent().getContent().getPlainText());                    
+                    renderArgs.put("start", start);
+                    renderArgs.put("end", end);
+                    renderArgs.put("tzShift", tzShift);
+                } catch (java.net.MalformedURLException me) {
+                } catch (IOException ioe) {
+                } catch (ServiceException se) {
+                }
                 renderWithInfo();
              }
         });
+    }
+
+    public static void update() {
+        if (session.contains("auth-token")) {
+            String title = params.get("title");
+            String content = params.get("content");
+            String sStart = params.get("start");
+            String sEnd = params.get("end");
+            String sTzShift = params.get("tzShift");
+
+            long start = Long.parseLong(sStart);
+            long end = Long.parseLong(sEnd);
+            int tzShift = Integer.parseInt(sTzShift);
+
+            try {
+                DateTime startTime = new DateTime(start, tzShift);
+                DateTime endTime = new DateTime(end, tzShift);
+                URL feedUrl = new URL(defaultUrl);
+                Query query = new Query(feedUrl);
+                query.setPublishedMin(startTime);
+                query.setPublishedMax(endTime);
+                Feed resultFeed = googleService.query(query, Feed.class);
+                Entry entry = resultFeed.getEntries().get(0);
+                entry.setTitle(new PlainTextConstruct(title));
+                PlainTextConstruct htmlContent = new PlainTextConstruct();
+                htmlContent.setText(content);
+                entry.setContent(htmlContent);
+                entry.setDraft(false);
+
+                URL editUrl = new URL(entry.getEditLink().getHref());
+                googleService.update(editUrl, entry);
+
+
+                JSONSerializer serializer = new JSONSerializer();
+                JsonResponse jsonResponse = new JsonResponse();
+
+
+
+                jsonResponse.nextUrl = "/posts";
+                Admin.renderJSON(serializer.exclude("class", "nextUrl").serialize(jsonResponse));
+            } catch (java.net.MalformedURLException me) {
+                System.out.println(me.toString());
+            } catch (IOException ioe) {
+                System.out.println(ioe.toString());
+            } catch (ServiceException se) {
+                System.out.println(se.toString());
+            }
+        } else {
+
+        }
     }
 }
