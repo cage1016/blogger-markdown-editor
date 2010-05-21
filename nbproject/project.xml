@@ -9,8 +9,8 @@
             <!-- Do not use Project Properties customizer when editing this file manually. -->
             <name>Blogger Console</name>
             <properties>
-                <property name="ant.script">/home/ubuntu/play-1.0.2.1/framework/build.xml</property>
-                <property name="application.path">/home/ubuntu/play-1.0.2.1/blogger-console</property>
+                <property name="ant.script">C:\Root\Data\play-1.0.2.1\framework\build.xml</property>
+                <property name="application.path">C:\Root\Data\play-1.0.2.1\blogger-markdown-editor</property>
                 <property name="application.name">Blogger Console</property>
             </properties>
             <folders>
@@ -64,19 +64,6 @@
                     <target>test-application</target>
                     <property name="application.path">${application.path}</property>
                 </action>
-                <action name="compile.single">
-                    <script>nbproject/ide-file-targets.xml</script>
-                    <target>compile-selected-files-in-app</target>
-                    <context>
-                        <property>files</property>
-                        <folder>app</folder>
-                        <pattern>\.java$</pattern>
-                        <format>relative-path</format>
-                        <arity>
-                            <separated-files>,</separated-files>
-                        </arity>
-                    </context>
-                </action>
             </ide-actions>
             <export>
                 <type>folder</type>
@@ -97,6 +84,10 @@
                     <source-folder style="tree">
                         <label>conf</label>
                         <location>conf</location>
+                    </source-folder>
+                    <source-folder style="tree">
+                        <label>war</label>
+                        <location>war</location>
                     </source-folder>
                     <source-folder style="packages">
                         <label>app</label>
@@ -119,7 +110,9 @@
             <compilation-unit>
                 <package-root>app</package-root>
                 <package-root>test</package-root>
-                <classpath mode="compile">conf:/home/ubuntu/play-1.0.2.1/framework/play.jar:/home/ubuntu/play-1.0.2.1/framework/lib/provided-geronimo-servlet_2.5_spec-1.2.jar:/home/ubuntu/play-1.0.2.1/framework/lib/bcprov-jdk15-142.jar:/home/ubuntu/play-1.0.2.1/framework/lib/commons-collections-3.1.jar:/home/ubuntu/play-1.0.2.1/framework/lib/jta.jar:/home/ubuntu/play-1.0.2.1/framework/lib/jamon-2.7.jar:/home/ubuntu/play-1.0.2.1/framework/lib/c3p0-0.9.1.jar:/home/ubuntu/play-1.0.2.1/framework/lib/ezmorph-1.0.3.jar:/home/ubuntu/play-1.0.2.1/framework/lib/commons-httpclient.jar:/home/ubuntu/play-1.0.2.1/framework/lib/activation.jar:/home/ubuntu/play-1.0.2.1/framework/lib/commons-lang.jar:/home/ubuntu/play-1.0.2.1/framework/lib/SnakeYAML-1.2.jar:/home/ubuntu/play-1.0.2.1/framework/lib/WikiText.jar:/home/ubuntu/play-1.0.2.1/framework/lib/backport-util-concurrent-3.0.jar:/home/ubuntu/play-1.0.2.1/framework/lib/oval-1.31.jar:/home/ubuntu/play-1.0.2.1/framework/lib/ZDB.jar:/home/ubuntu/play-1.0.2.1/framework/lib/groovy-all-1.7.1.jar:/home/ubuntu/play-1.0.2.1/framework/lib/hibernate-entitymanager.jar:/home/ubuntu/play-1.0.2.1/framework/lib/dom4j-1.6.1.jar:/home/ubuntu/play-1.0.2.1/framework/lib/ehcache-1.5.0.jar:/home/ubuntu/play-1.0.2.1/framework/lib/compiler-jdt.jar:/home/ubuntu/play-1.0.2.1/framework/lib/wikitext.core_1.1.1.jar:/home/ubuntu/play-1.0.2.1/framework/lib/gson-1.3.jar:/home/ubuntu/play-1.0.2.1/framework/lib/joda-time-1.6.jar:/home/ubuntu/play-1.0.2.1/framework/lib/slf4j-log4j12-1.5.0.jar:/home/ubuntu/play-1.0.2.1/framework/lib/play-SimpleCaptcha.jar:/home/ubuntu/play-1.0.2.1/framework/lib/jaxen-1.1.jar:/home/ubuntu/play-1.0.2.1/framework/lib/lucene-core-2.3.1.jar:/home/ubuntu/play-1.0.2.1/framework/lib/commons-beanutils.jar:/home/ubuntu/play-1.0.2.1/framework/lib/lucene-analyzers-2.3.1.jar:/home/ubuntu/play-1.0.2.1/framework/lib/log4j-1.2.15.jar:/home/ubuntu/play-1.0.2.1/framework/lib/commons-codec.jar:/home/ubuntu/play-1.0.2.1/framework/lib/mina-core-2.0.0-M2-SNAPSHOT.jar:/home/ubuntu/play-1.0.2.1/framework/lib/hsqldb.jar:/home/ubuntu/play-1.0.2.1/framework/lib/cglib-nodep-2.2.jar:/home/ubuntu/play-1.0.2.1/framework/lib/slf4j-api-1.5.0.jar:/home/ubuntu/play-1.0.2.1/framework/lib/play-imaging.jar:/home/ubuntu/play-1.0.2.1/framework/lib/memcached-2.4.2.jar:/home/ubuntu/play-1.0.2.1/framework/lib/jregex1.2_01.jar:/home/ubuntu/play-1.0.2.1/framework/lib/mysql-connector-java-5.1.8-bin.jar:/home/ubuntu/play-1.0.2.1/framework/lib/hibernate-commons-annotations.jar:/home/ubuntu/play-1.0.2.1/framework/lib/jsr107cache-1.0.jar:/home/ubuntu/play-1.0.2.1/framework/lib/mail.jar:/home/ubuntu/play-1.0.2.1/framework/lib/junit-4.4.jar:/home/ubuntu/play-1.0.2.1/framework/lib/asyncweb-common-0.9.0-SNAPSHOT.jar:/home/ubuntu/play-1.0.2.1/framework/lib/antlr-2.7.6.jar:/home/ubuntu/play-1.0.2.1/framework/lib/commons-logging-1.1.1.jar:/home/ubuntu/play-1.0.2.1/framework/lib/hibernate-validator.jar:/home/ubuntu/play-1.0.2.1/framework/lib/commons-fileupload-1.2.jar:/home/ubuntu/play-1.0.2.1/framework/lib/hibernate3-ast.jar:/home/ubuntu/play-1.0.2.1/framework/lib/javassist.jar:/home/ubuntu/play-1.0.2.1/framework/lib/ejb3-persistence.jar:/home/ubuntu/play-1.0.2.1/framework/lib/hibernate-annotations.jar:/home/ubuntu/play-1.0.2.1/framework/lib/hibernate3.jar:/home/ubuntu/play-1.0.2.1/framework/lib/commons-io.jar:lib/gdata-core-1.0.jar:lib/gdata-base-1.0.jar:lib/gdata-blogger-2.0.jar:lib/gdata-maps-2.0.jar:nbproject/classes:/home/ubuntu/play-1.0.2.1/modules/gae-1.0.2/lib</classpath>
+                <package-root>C:\Root\Data\play-1.0.2.1\modules\gae\app</package-root>
+                <package-root>C:\Root\Data\play-1.0.2.1\modules\secure\app</package-root>
+                <classpath mode="compile">conf;C:\Root\Data\play-1.0.2.1\framework\play.jar;lib/gdata-base-1.0.jar;lib/gdata-blogger-2.0.jar;lib/gdata-core-1.0.jar;lib/gdata-maps-2.0.jar;lib/google-collect-1.0-rc1.jar;lib/jsr305.jar;C:\Root\Data\play-1.0.2.1\framework\lib\activation.jar;C:\Root\Data\play-1.0.2.1\framework\lib\antlr-2.7.6.jar;C:\Root\Data\play-1.0.2.1\framework\lib\asyncweb-common-0.9.0-SNAPSHOT.jar;C:\Root\Data\play-1.0.2.1\framework\lib\backport-util-concurrent-3.0.jar;C:\Root\Data\play-1.0.2.1\framework\lib\bcprov-jdk15-142.jar;C:\Root\Data\play-1.0.2.1\framework\lib\c3p0-0.9.1.jar;C:\Root\Data\play-1.0.2.1\framework\lib\cglib-nodep-2.2.jar;C:\Root\Data\play-1.0.2.1\framework\lib\commons-beanutils.jar;C:\Root\Data\play-1.0.2.1\framework\lib\commons-codec.jar;C:\Root\Data\play-1.0.2.1\framework\lib\commons-collections-3.1.jar;C:\Root\Data\play-1.0.2.1\framework\lib\commons-fileupload-1.2.jar;C:\Root\Data\play-1.0.2.1\framework\lib\commons-httpclient.jar;C:\Root\Data\play-1.0.2.1\framework\lib\commons-io.jar;C:\Root\Data\play-1.0.2.1\framework\lib\commons-lang.jar;C:\Root\Data\play-1.0.2.1\framework\lib\commons-logging-1.1.1.jar;C:\Root\Data\play-1.0.2.1\framework\lib\compiler-jdt.jar;C:\Root\Data\play-1.0.2.1\framework\lib\dom4j-1.6.1.jar;C:\Root\Data\play-1.0.2.1\framework\lib\ehcache-1.5.0.jar;C:\Root\Data\play-1.0.2.1\framework\lib\ejb3-persistence.jar;C:\Root\Data\play-1.0.2.1\framework\lib\ezmorph-1.0.3.jar;C:\Root\Data\play-1.0.2.1\framework\lib\groovy-all-1.7.1.jar;C:\Root\Data\play-1.0.2.1\framework\lib\gson-1.3.jar;C:\Root\Data\play-1.0.2.1\framework\lib\hibernate-annotations.jar;C:\Root\Data\play-1.0.2.1\framework\lib\hibernate-commons-annotations.jar;C:\Root\Data\play-1.0.2.1\framework\lib\hibernate-entitymanager.jar;C:\Root\Data\play-1.0.2.1\framework\lib\hibernate-validator.jar;C:\Root\Data\play-1.0.2.1\framework\lib\hibernate3-ast.jar;C:\Root\Data\play-1.0.2.1\framework\lib\hibernate3.jar;C:\Root\Data\play-1.0.2.1\framework\lib\hsqldb.jar;C:\Root\Data\play-1.0.2.1\framework\lib\jamon-2.7.jar;C:\Root\Data\play-1.0.2.1\framework\lib\javassist.jar;C:\Root\Data\play-1.0.2.1\framework\lib\jaxen-1.1.jar;C:\Root\Data\play-1.0.2.1\framework\lib\joda-time-1.6.jar;C:\Root\Data\play-1.0.2.1\framework\lib\jregex1.2_01.jar;C:\Root\Data\play-1.0.2.1\framework\lib\jsr107cache-1.0.jar;C:\Root\Data\play-1.0.2.1\framework\lib\jta.jar;C:\Root\Data\play-1.0.2.1\framework\lib\junit-4.4.jar;C:\Root\Data\play-1.0.2.1\framework\lib\log4j-1.2.15.jar;C:\Root\Data\play-1.0.2.1\framework\lib\lucene-analyzers-2.3.1.jar;C:\Root\Data\play-1.0.2.1\framework\lib\lucene-core-2.3.1.jar;C:\Root\Data\play-1.0.2.1\framework\lib\mail.jar;C:\Root\Data\play-1.0.2.1\framework\lib\memcached-2.4.2.jar;C:\Root\Data\play-1.0.2.1\framework\lib\mina-core-2.0.0-M2-SNAPSHOT.jar;C:\Root\Data\play-1.0.2.1\framework\lib\mysql-connector-java-5.1.8-bin.jar;C:\Root\Data\play-1.0.2.1\framework\lib\oval-1.31.jar;C:\Root\Data\play-1.0.2.1\framework\lib\play-imaging.jar;C:\Root\Data\play-1.0.2.1\framework\lib\play-SimpleCaptcha.jar;C:\Root\Data\play-1.0.2.1\framework\lib\provided-geronimo-servlet_2.5_spec-1.2.jar;C:\Root\Data\play-1.0.2.1\framework\lib\slf4j-api-1.5.0.jar;C:\Root\Data\play-1.0.2.1\framework\lib\slf4j-log4j12-1.5.0.jar;C:\Root\Data\play-1.0.2.1\framework\lib\SnakeYAML-1.2.jar;C:\Root\Data\play-1.0.2.1\framework\lib\wikitext.core_1.1.1.jar;C:\Root\Data\play-1.0.2.1\framework\lib\WikiText.jar;C:\Root\Data\play-1.0.2.1\framework\lib\ZDB.jar;nbproject/classes;C:\Root\Data\play-1.0.2.1\modules\gae\lib\play-gae.jar;C:\Root\Data\play-1.0.2.1\modules\gae\lib\appengine-api-1.0-sdk-1.3.0.jar;lib/flexjson.jar</classpath>
                 <built-to>nbproject/classes</built-to>
                 <source-level>1.5</source-level>
             </compilation-unit>

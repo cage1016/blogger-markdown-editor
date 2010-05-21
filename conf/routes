@@ -7,7 +7,12 @@ GET     /login                                  Admin.login
 GET     /logout                                 Admin.logout
 GET     /post                                   Admin.post
 GET     /posts                                  Admin.posts
-GET     /comments                               Admin.comments
+GET     /drafts                                 Admin.drafts
+GET     /settings                               Admin.settings
+GET     /edit                                   Admin.edit
+
+POST    /publish                                Admin.publish
+POST    /saveDraft                              Admin.saveDraft
 
 # Home page
 GET     /                                       Application.index

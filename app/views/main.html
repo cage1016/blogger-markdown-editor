@@ -9,13 +9,15 @@
         <!--[if lt IE 8]>
         <link rel="stylesheet" href="@{'/public/stylesheets/blueprint/ie.css'}" type="text/css" media="screen, projection">
         <![endif]-->
-        <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/app/main.css'}">
+        <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/app/main.css'}">        
         #{get 'moreStyles' /}
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
         <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>
+        <script src="@{'/public/javascripts/showdown.js'}" type="text/javascript" charset="utf-8"></script>
+        <script src="@{'/public/javascripts/autoresize.jquery.min.js'}" type="text/javascript" charset="utf-8"></script>
         #{get 'moreScripts' /}
     </head>
     <body>
-        #{doLayout /}
+        #{doLayout /}        
     </body>
 </html>

@@ -8,16 +8,18 @@
     <div class="span-6 last">
 
     </div>
-    <div class="span-18" id="tabscol">
+    <div class="span-24 underline">
         <div class="tab-menu">
             <ul>
                 <li><a href="/" id="current">About</a></li>
-                <li><a href="/post">New Post</a></li>
-                <li class="active"><a href="/posts">List of Posts</a></li>
-                <li><a href="/comments">Comments</a></li>
+                <li><a href="/post">New</a></li>
+                <li class="active"><a href="/posts">Posts</a></li>
+                <li><a href="/drafts">Drafts</a></li>                
+                <li><a href="/settings">Settings</a></li>
             </ul>
         </div>
     </div>
+    <!--
     <div class="span-6 last">
         <div id="logincol">
             #{if user}                
@@ -32,9 +34,31 @@
             #{/else}
         </div>
     </div>
-    <div class="span-18">
-        <div id="maincol">
-
+    -->
+    <div class="span-24">
+        <div class="post-list">
+            <ul>
+                #{list entries, as: 'entry'}
+                    <li>
+                        <table>
+                            <tr>                                
+                                <td class="post-published">
+                                ${entry.getPublished().toUiString().substring(0, 10)}
+                                </td>
+                                <td class="post-author">
+                                ${entry.getAuthors().get(0).getName()}
+                                </td>
+                                <td class="post-name">
+                                ${entry.getTitle().getPlainText()}
+                                </td>
+                                <td class="link"><a href="/edit">Edit</a></td>
+                                <td class="link"><a href="#">View</a></td>
+                                <td class="link"><a href="#">Draft</a></td>
+                            </tr>
+                        </table>
+                    </li>
+                #{/list}
+            </ul>
         </div>
     </div>
 </div>
