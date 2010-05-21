@@ -109,10 +109,19 @@ public class Admin extends Controller {
         });
     }
 
+    //Thanks to http://wp.uberdose.com/2007/02/04/how-to-label-posts-via-the-blogger-api/
+    private static void addLabel(Entry entry, String label) {
+        Category category = new Category();
+        category.setScheme("http://www.blogger.com/atom/ns#");
+        category.setTerm(label);
+        entry.getCategories().add(category);
+    }
+
     public static void publish() {
         if (session.contains("auth-token")) {
             String title = params.get("title");
-            String content = params.get("content");            
+            String content = params.get("content");
+            String labels = params.get("labels");
 
             JSONSerializer serializer = new JSONSerializer();
             JsonResponse jsonResponse = new JsonResponse();
@@ -124,9 +133,12 @@ public class Admin extends Controller {
                 entry.setTitle(new PlainTextConstruct(title));
                 PlainTextConstruct htmlContent = new PlainTextConstruct();
                 htmlContent.setText(content);
-                entry.setContent(htmlContent);
+                entry.setContent(htmlContent);                
                 entry.setDraft(false);
-
+                java.util.StringTokenizer st = new java.util.StringTokenizer(labels, ",");
+                while (st.hasMoreTokens()) {
+                    addLabel(entry, st.nextToken());
+                }
                 googleService.insert(postUrl, entry);
 
                 jsonResponse.nextUrl = "/posts";
@@ -160,16 +172,17 @@ public class Admin extends Controller {
                 try {                    
                     URL feedUrl = new URL(defaultUrl);
                     Feed posts = googleService.getFeed(feedUrl, Feed.class);
-                    java.util.List<Entry> entries = posts.getEntries();
-                    // posts.
-                    //java.util.List<PlainTextConstruct> ptc = posts.getEntries(<PlainTextConstruct>);
-                    renderArgs.put("entries", entries);
-                    for (Entry entry : entries) {
-                        //PlainTextConstruct ptc = (PlainTextConstruct) entry.getPl;
-                        //PlainTextConstruct text = entry.getPlainTextContent();
-                        System.out.println(entry.getTextContent().getContent().getPlainText());
-                        //entry.getPublished().toStringRfc822().substring(beginIndex, endIndex)
+                    java.util.List<Entry> entries = posts.getEntries();                                                            
+
+                    java.util.List<Entry> published = new java.util.ArrayList<Entry>();
+                    for (Entry entry : entries) {                                                
+                        if (!entry.isDraft()) {
+                            published.add(entry);
+                            entry.getTextContent().getContent().getPlainText();                            
+                        }
                     }
+
+                    renderArgs.put("entries", published);
                 } catch (java.net.MalformedURLException me) {                                        
                 } catch (IOException ioe) {                                  
                 } catch (ServiceException se) {                    
@@ -182,6 +195,31 @@ public class Admin extends Controller {
     public static void drafts() {
         authenticate("drafts", new processAction() {
              public void doAction() {
+                try {
+                    URL feedUrl = new URL(defaultUrl);
+                    Feed posts = googleService.getFeed(feedUrl, Feed.class);
+                    java.util.List<Entry> entries = posts.getEntries();
+                    //posts.getEntries(<com.google.gdata.data.blogger.BlogEntry>);
+                    //Class<com.google.gdata.data.blogger.BlogEntry> returnClass = Class<com.google.gdata.data.blogger.BlogEntry>();
+                    //java.util.List<com.google.gdata.data.blogger.BlogEntry> blogEntries = posts.getEntries(returnClass);
+
+                    java.util.List<Entry> drafts = new java.util.ArrayList<Entry>();
+                    System.out.println("Drafts:" + entries.size());
+                    for (Entry entry : entries) {
+                        System.out.println(entry.isDraft());
+                        System.out.println(entry.getTextContent().getContent().getPlainText());
+                        System.out.println();
+                        if (entry.isDraft()) {
+                            drafts.add(entry);
+                            System.out.println(entry);
+                        }
+                    }
+
+                    renderArgs.put("entries", drafts);
+                } catch (java.net.MalformedURLException me) {
+                } catch (IOException ioe) {
+                } catch (ServiceException se) {
+                }
                 renderWithInfo();
              }
         });
