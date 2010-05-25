@@ -1,0 +1,50 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<div class="container wrapper">
+    <div class="span-18">
+        <h2>${info.title}</h2>
+    </div>
+    <div class="span-6 last">
+
+    </div>
+    <div class="span-24 underline">
+        <div class="tab-menu">
+            <ul>
+                <li><a href="/" id="current">About</a></li>
+                <li><a href="/post">New</a></li>
+                <li><a href="/posts">Posts</a></li>
+                <li class="active"><a href="/drafts">Drafts</a></li>                
+                <li><a href="/settings">Settings</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="span-24">
+        <div class="post-list">
+            <ul>
+                #{list entries, as: 'entry'}
+                    <li>
+                        <table>
+                            <tr>
+                                <td class="post-published">
+                                <!--${entry.getPublished().toUiString().substring(0, 10)}-->
+                                ${entry.getPublished().toUiString()}
+                                </td>
+                                <td class="post-author">
+                                ${entry.getAuthors().get(0).getName()}
+                                </td>
+                                <td class="post-name">
+                                ${entry.getTitle().getPlainText()}
+                                </td>
+                                <td class="link"><a href="/edit/${entry.getPublished().getValue()}/${entry.getPublished().getTzShift()}">Edit</a></td>
+                                <td class="link"><a href="#">View</a></td>
+                                <td class="link"><a href="#">Delete</a></td>
+                            </tr>
+                        </table>
+                    </li>
+                #{/list}
+            </ul>
+        </div>
+    </div>
+</div>

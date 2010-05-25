@@ -1,0 +1,117 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<div class="container wrapper">
+    <div class="span-18">
+        <h2>${info.title}</h2>
+    </div>
+    <div class="span-6 last">
+
+    </div>
+    <div class="span-24 underline">
+        <div class="span-18">
+            <div class="tab-menu">
+                <ul>
+                    <li><a href="/" id="current">About</a></li>
+                    <li><a href="/post">New</a></li>
+                    <li><a href="/posts">Posts</a></li>
+                    <li><a href="/drafts">Drafts</a></li>
+                    <li><a href="/settings">Settings</a></li>
+                    <li class="active"><a href="/post">Edit</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="span-6 last">
+            <div class="tab-menu">
+                <ul class="right-justify">
+                    <li><a class="pseudo-btn" id="publish-btn">Publish</a></li>
+                    <li><a class="pseudo-btn" id="saveDraft-btn">Save</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="span-12">
+        <input type="text" id="post-title-input" value="${title}"/>
+    </div>
+    <div class="span-12 last">
+        <div id="post-title-preview">${title}</div>
+    </div>
+    <div class="span-12">
+        <textarea col="100" id="post-body-input" style="border: none; margin-right: 20px; width: 100%;">${entry}</textarea>
+    </div>
+    <div class="span-12 last">
+        <div id="post-body-preview" class="wmd-preview" style="margin-left: 20px; margin-top: 10px; width: 100%;"></div>
+    </div>
+</div>
+
+<div style="display: none;">
+    <div id="start">${start}</div>
+    <div id="end">${end}</div>
+    <div id="tzShift">${tzShift}</div>
+</div>
+<script type="text/javascript">
+    var active_color = '#000'; // Colour of user provided text
+    var inactive_color = '#ccc'; // Colour of default text
+
+    $(document).ready(function() {
+        $('#publish-btn').click(function() {
+            $.ajax({
+                type: 'POST',
+                url: '/update',
+                data: {
+                    'title': $('#post-title-input').val(),
+                    'content': $('#post-body-input').val(),
+                    'start': $('#start').text(),
+                    'end': $('#end').text(),
+                    'tzShift': $('#tzShift').text()
+                },
+                complete: function(data) {
+                    window.location = $.parseJSON(data.responseText).nextUrl;
+                },
+                dataType: 'json'
+            });
+        });
+
+        $('#saveDraft-btn').click(function() {
+
+        });        
+        
+        $('#post-title-input').keyup(function() {
+            $('#post-title-preview').text($('#post-title-input').val());
+        });
+    });
+    // to set WMD's options programatically, define a "wmd_options" object with whatever settings
+    // you want to override.  Here are the defaults:
+    wmd_options = {
+        // format sent to the server.  Use "Markdown" to return the markdown source.
+        output: "HTML",
+
+        // line wrapping length for lists, blockquotes, etc.
+        lineLength: 40,
+
+        // toolbar buttons.  Undo and redo get appended automatically.
+        buttons: "bold italic | link blockquote code image | ol ul heading hr",
+
+        // option to automatically add WMD to the first textarea found.  See apiExample.html for usage.
+        autostart: true
+    };
+
+    $('textarea#post-body-input').autoResize({
+        // On resize:
+        onResize : function() {
+            $(this).css({opacity:0.8});
+        },
+        // After resize:
+        animateCallback : function() {
+            $(this).css({opacity:1});
+        },
+        // Quite slow animation:
+        animateDuration : 300,
+        // More extra space:
+        extraSpace : 40
+    });
+</script>
+<script src="@{'/public/javascripts/wmd.js'}" type="text/javascript" charset="utf-8"></script>
+
+

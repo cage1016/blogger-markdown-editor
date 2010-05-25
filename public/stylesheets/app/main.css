@@ -150,10 +150,10 @@ a:hover.app-btn {
 }
 
 .maincol {
-    min-height:500px; /* for modern browsers */
-    height:auto !important; /* for modern browsers */
-    height:500px; /* for IE5.x and IE6 */
-    padding: 10px;
+    min-height: 500px; /* for modern browsers */
+    height: auto !important; /* for modern browsers */
+    height: 500px; /* for IE5.x and IE6 */
+    padding-top: 15px;
 }
 
 .logincol {

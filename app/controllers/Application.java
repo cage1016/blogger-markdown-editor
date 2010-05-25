@@ -1,6 +1,5 @@
 package controllers;
 
-import play.*;
 import play.mvc.*;
 import play.modules.gae.GAE;
 import com.google.appengine.api.users.User;
@@ -20,7 +19,25 @@ public class Application extends Controller {
     public static void index() {
         GeneralInfo info = new GeneralInfo();
         render(info);
-    }    
+    }
+
+    public static void post() {        
+        GeneralInfo info = new GeneralInfo();
+        if (session.contains("auth-token")) {
+            Post post = new Post();
+            post.title = (String) session.get("title");
+            post.content = (String) session.get("content");
+            post.labels = (String) session.get("labels");
+            render(info);
+        } else {
+            render(info);
+        }
+    }
+
+    public static void needlogin() {
+        GeneralInfo info = new GeneralInfo();
+        render(info);
+    }
 
     /**
      * This method is used to complete the loop for

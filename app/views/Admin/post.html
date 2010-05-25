@@ -34,7 +34,7 @@
         <input type="text" id="post-title-input" value="Blog Title"/>
     </div>
     <div class="span-12 last">
-        <div id="post-title-preview">Blog Title</div>
+        <div id="post-title-preview">${(String) session.get("title")}</div>
     </div>
     <div class="span-12">        
         <textarea col="100" id="post-body-input" style="border: none; margin-right: 20px; width: 100%;">*Once upon a time*...</textarea>

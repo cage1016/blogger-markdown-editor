@@ -32,6 +32,7 @@ public class Admin extends Controller {
         }
     }
 
+    private static String DEFAULT_FEED_BLOG_URL = "http://www.blogger.com/feeds/default/blogs";
     private static String BASE_URL_PREFIX = "http://www.blogger.com/feeds/";
     private static String BASE_URL_SUFFFIX = "/posts/default";
     private static String BLOG_ID = "3671514850256229698"; //1755575872729350021
@@ -101,12 +102,14 @@ public class Admin extends Controller {
         GAE.logout("Application.index");
     }
 
-    public static void post() {        
+    public static void post() {
+        
         authenticate("post", new processAction() {
              public void doAction() {
                 renderWithInfo();
              }
         });
+        //renderWithInfo();
     }
 
     //Thanks to http://wp.uberdose.com/2007/02/04/how-to-label-posts-via-the-blogger-api/
@@ -118,14 +121,14 @@ public class Admin extends Controller {
     }
 
     public static void publish() {
-        if (session.contains("auth-token")) {
+        JSONSerializer serializer = new JSONSerializer();
+        JsonResponse jsonResponse = new JsonResponse();
+
+        if (session.contains("auth-token")) {            
             String title = params.get("title");
             String content = params.get("content");
             String labels = params.get("labels");
-
-            JSONSerializer serializer = new JSONSerializer();
-            JsonResponse jsonResponse = new JsonResponse();
-
+           
             try {                                
                 URL postUrl = new URL(defaultUrl);
 
@@ -135,41 +138,45 @@ public class Admin extends Controller {
                 htmlContent.setText(content);
                 entry.setContent(htmlContent);                
                 entry.setDraft(false);
-                java.util.StringTokenizer st = new java.util.StringTokenizer(labels, ",");
-                while (st.hasMoreTokens()) {
-                    addLabel(entry, st.nextToken());
+                if (null != labels) {
+                    java.util.StringTokenizer st = new java.util.StringTokenizer(labels, ",");
+                    while (st.hasMoreTokens()) {
+                        addLabel(entry, st.nextToken());
+                    }
                 }
                 googleService.insert(postUrl, entry);
 
                 jsonResponse.nextUrl = "/posts";
                 Admin.renderJSON(serializer.exclude("class", "nextUrl").serialize(jsonResponse));
             } catch (java.net.MalformedURLException me) {
-                System.out.println(me.toString());
+                me.printStackTrace();
             } catch (IOException ioe) {
-                System.out.println(ioe.toString());
+                ioe.printStackTrace();
             } catch (AuthenticationException ae) {
                 session.remove("auth-token");
-                authenticate("/post", new processAction() {
-                     public void doAction() {
-                     }
-                });
+                jsonResponse.nextUrl = "/needlogin";
+                Admin.renderJSON(serializer.exclude("class", "nextUrl").serialize(jsonResponse));
             } catch (ServiceException se) {
-                System.out.println(se.toString());
-                post();
+                session.remove("auth-token");
+                jsonResponse.nextUrl = "/needlogin";
+                Admin.renderJSON(serializer.exclude("class", "nextUrl").serialize(jsonResponse));
             }
         } else {
-            
+            session.remove("auth-token");
+            jsonResponse.nextUrl = "/needlogin";
+            Admin.renderJSON(serializer.exclude("class", "nextUrl").serialize(jsonResponse));
         }
-    }
-
+    }    
+    
     public static void saveDraft() {
          posts();
-    }
+    }    
 
     public static void posts() {        
         authenticate("posts", new processAction() {
              public void doAction() {
-                try {                    
+                try {
+                    
                     URL feedUrl = new URL(defaultUrl);
                     Feed posts = googleService.getFeed(feedUrl, Feed.class);
                     java.util.List<Entry> entries = posts.getEntries();                                                            
@@ -203,15 +210,10 @@ public class Admin extends Controller {
                     //Class<com.google.gdata.data.blogger.BlogEntry> returnClass = Class<com.google.gdata.data.blogger.BlogEntry>();
                     //java.util.List<com.google.gdata.data.blogger.BlogEntry> blogEntries = posts.getEntries(returnClass);
 
-                    java.util.List<Entry> drafts = new java.util.ArrayList<Entry>();
-                    System.out.println("Drafts:" + entries.size());
-                    for (Entry entry : entries) {
-                        System.out.println(entry.isDraft());
-                        System.out.println(entry.getTextContent().getContent().getPlainText());
-                        System.out.println();
+                    java.util.List<Entry> drafts = new java.util.ArrayList<Entry>();                    
+                    for (Entry entry : entries) {                        
                         if (entry.isDraft()) {
-                            drafts.add(entry);
-                            System.out.println(entry);
+                            drafts.add(entry);                            
                         }
                     }
 
@@ -228,7 +230,24 @@ public class Admin extends Controller {
     public static void settings() {
         authenticate("settings", new processAction() {
              public void doAction() {
-                renderWithInfo();
+                try {
+                    System.out.println("SETTINGS");
+                    URL feedUrl = new URL(DEFAULT_FEED_BLOG_URL);
+                    Feed posts = googleService.getFeed(feedUrl, Feed.class);
+                    java.util.List<Entry> entries = posts.getEntries();
+                    Entry firstEntry = entries.get(0);
+                    System.out.println(firstEntry.getSelfLink().getHref());
+                    renderWithInfo();
+                } catch (java.net.MalformedURLException me) {
+                    me.printStackTrace();
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                } catch (AuthenticationException ae) {
+                    ae.printStackTrace();
+                    redirect("/");
+                } catch (ServiceException se) {
+                    se.printStackTrace();
+                }
              }
         });
     }
@@ -255,6 +274,8 @@ public class Admin extends Controller {
                     renderArgs.put("tzShift", tzShift);
                 } catch (java.net.MalformedURLException me) {
                 } catch (IOException ioe) {
+                } catch (AuthenticationException ae) {
+                    redirect("/");
                 } catch (ServiceException se) {
                 }
                 renderWithInfo();
@@ -304,6 +325,11 @@ public class Admin extends Controller {
                 System.out.println(me.toString());
             } catch (IOException ioe) {
                 System.out.println(ioe.toString());
+            } catch (AuthenticationException ae) {
+                session.remove("auth-token");
+                ae.printStackTrace();
+                System.out.println("AuthenticationException");
+                redirect("/");
             } catch (ServiceException se) {
                 System.out.println(se.toString());
             }
